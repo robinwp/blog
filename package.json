@@ -1,0 +1,11 @@
+{
+  "name": "robinwp.github.io",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "git@github.com:robinwp/robinwp.github.io.git",
+  "author": "robinwp <284595745@qq.com>",
+  "scripts": {
+    "build": "gitbook build src book"
+  },
+  "license": "MIT"
+}

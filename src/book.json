@@ -1,0 +1,11 @@
+{
+  "title": "robin的博客",
+  "language": "zh-hans",
+  "plugins": [
+    "-sharing",
+    "highlight",
+    "search",
+    "fontsettings",
+    "livereload"
+  ]
+}

@@ -1,1 +1,8 @@
 theme: jekyll-theme-cayman
+title: robin的博客                # 你的博客名
+subtitle: 第一次尝试写博客，多多见谅                       # 子标题
+description: 前端分享      # 博客描述，SEO相关
+keywords: javascript                        # 关键词
+author: robin                            # 博主名字
+language: zh-CN                         # 语言，**关系到主题所显示的语言**
+root: ./book
