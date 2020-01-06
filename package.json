@@ -8,5 +8,8 @@
     "dev": "gitbook serve src",
     "build": "gitbook build src book && node build/index.js"
   },
-  "license": "MIT"
+  "license": "MIT",
+  "devDependencies": {
+    "parse5": "^5.1.1"
+  }
 }
