@@ -5,6 +5,7 @@
   "repository": "git@github.com:robinwp/robinwp.github.io.git",
   "author": "robinwp <284595745@qq.com>",
   "scripts": {
+    "dev": "gitbook serve src",
     "build": "gitbook build src book && node build/index.js"
   },
   "license": "MIT"
