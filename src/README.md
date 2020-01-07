@@ -114,7 +114,7 @@ middlewareList.push(function(req, res, next){
 
 middlewareList.push(function(req, res, next){
 	console.log(5);
-	next();
+	// next();
 	console.log(6);
 });
 
@@ -124,13 +124,11 @@ function entries(list, fn, next){
 		const task = list[i++];
 		if(task){
 			fn(task, _next);
-		}
+		} else if (next) {
+            next();
+        }
 	};
 	_next();
-
-    if (next) {
-      next();
-    }
 }
 
 middlewareInstance.use(function(req, res, next){
@@ -141,14 +139,14 @@ middlewareInstance.use(function(req, res, next){
 middlewareInstance.use(function(req, res, next){
 	console.log('end');
 });
-middlewareInstance.start(); // 1 3 5 6 4 2 end
+middlewareInstance.start(); // 1 3 5 6 4 2
 
-middlewareList[1] = function(req, res, next){
-	console.log(3);
-	// next();
-	console.log(4);
+middlewareList[2] = function(req, res, next){
+	console.log(5);
+	next();
+	console.log(6);
 };
-middlewareInstance.start();// 1 3 4 2 end
+middlewareInstance.start();// 1 3 5 end 6 4 2
 
 ```
 > 啊，我这该死的优雅（偷笑）
@@ -197,13 +195,11 @@ module.exports = {
       		const task = list[i++];
       		if(task){
       			fn(task, _next);
-      		}
+      		} else if (next) {
+                next();
+            }
       	};
       	_next();
-
-        if (next) {
-          next();
-        }
       }
 
       app.use(function(req, res, next){
