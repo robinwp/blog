@@ -75,6 +75,7 @@
   <button onclick="handleMagnify()">放大</button>
   <span id="zoomText">100%</span>
   <button onclick="handleMinify()">缩小</button>
+  <button onclick="handlePicture()">下载</button>
 </div>
 <div onmousedown="handlerDragMoveEvent(event)" class="content-warp">
   <div id="svgcontent" class="svg-warp"></div>
@@ -247,6 +248,10 @@ function handleMinify () {
     svgcontent.style.transform = `scale(${ zoom })`;
   }
   zoomTextEl.innerText = (zoom * 100).toFixed(0) + '%';
+}
+
+function handlePicture () {
+  codemind.picture(2, 10);
 }
 </script>
 </body>
