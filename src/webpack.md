@@ -1,8 +1,8 @@
-# 手写demo版webpack
+# 通过手撸学习webpack4
 
 平时的工作中，我们都离不开webpack帮助我们构建应用，今天我们来分析一下webpack的工作原理，并且手撸一个简单版的webpack
 
-### webpack 原理分析
+### webpack4 原理分析
 
 我们都知道webpack是一个打包工具，假设我们有一下3个文件，那么经过webpack打包后，会变成什么样呢。
 
@@ -311,7 +311,7 @@ module.exports = {
 ```
 ### 增加plugin
 
-> 使用了 tapable 库中的SyncHook类，tapable主要实现了发布订阅模式，下次具体分享这个库。
+> 使用了 tapable 库中的SyncHook类，tapable主要实现了发布订阅模式。[通过手撸学习tapable](tapable.md)
 
 在 Compiler.js的构造函数中添加以下代码
 ```

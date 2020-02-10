@@ -1,0 +1,469 @@
+
+<!DOCTYPE HTML>
+<html lang="zh-hans" >
+    <head>
+        <meta charset="UTF-8">
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <title>通过手撸学习tapable · robin的博客</title>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="description" content="">
+        <meta name="generator" content="GitBook 3.2.3">
+        
+        
+        
+    
+    <link rel="stylesheet" href="gitbook/style.css">
+
+    
+            
+                
+                <link rel="stylesheet" href="gitbook/gitbook-plugin-highlight/website.css">
+                
+            
+                
+                <link rel="stylesheet" href="gitbook/gitbook-plugin-search/search.css">
+                
+            
+                
+                <link rel="stylesheet" href="gitbook/gitbook-plugin-fontsettings/website.css">
+                
+            
+        
+
+    
+
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+
+        
+    
+    
+    <meta name="HandheldFriendly" content="true"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="apple-touch-icon-precomposed" sizes="152x152" href="gitbook/images/apple-touch-icon-precomposed-152.png">
+    <link rel="shortcut icon" href="gitbook/images/favicon.ico" type="image/x-icon">
+
+    
+    
+    <link rel="prev" href="webpack.html" />
+    
+
+    </head>
+    <body>
+        
+<div class="book">
+    <div class="book-summary">
+        
+            
+<div id="book-search-input" role="search">
+    <input type="text" placeholder="输入并搜索" />
+</div>
+
+            
+                <nav role="navigation">
+                
+
+
+<ul class="summary">
+    
+    
+
+    
+
+    
+        
+        
+    
+        <li class="chapter " data-level="1.1" data-path="./">
+            
+                <a href="./">
+            
+                    
+                    如何优雅的实现express中间件的热跟新
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2" data-path="html2canvas.html">
+            
+                <a href="html2canvas.html">
+            
+                    
+                    html2canvas实现原理
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3" data-path="webpack.html">
+            
+                <a href="webpack.html">
+            
+                    
+                    通过手撸学习webpack4
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter active" data-level="1.4" data-path="tapable.html">
+            
+                <a href="tapable.html">
+            
+                    
+                    通过手撸学习tapable
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+
+    <li class="divider"></li>
+
+    <li>
+        <a href="https://www.gitbook.com" target="blank" class="gitbook-link">
+            本书使用 GitBook 发布
+        </a>
+    </li>
+</ul>
+
+
+                </nav>
+            
+        
+    </div>
+
+    <div class="book-body">
+        
+            <div class="body-inner">
+                
+                    
+
+<div class="book-header" role="navigation">
+    
+
+    <!-- Title -->
+    <h1>
+        <i class="fa fa-circle-o-notch fa-spin"></i>
+        <a href="." >通过手撸学习tapable</a>
+    </h1>
+</div>
+
+
+
+
+                    <div class="page-wrapper" tabindex="-1" role="main">
+                        <div class="page-inner">
+                            
+<div id="book-search-results">
+    <div class="search-noresults">
+    
+                                <section class="normal markdown-section">
+                                
+                                <h1 id="&#x901A;&#x8FC7;&#x624B;&#x64B8;&#x5B66;&#x4E60;tapable">&#x901A;&#x8FC7;&#x624B;&#x64B8;&#x5B66;&#x4E60;tapable</h1>
+<p><a href="https://github.com/webpack/tapable" target="_blank">tapable</a>&#x662F;&#x4EC0;&#x4E48;&#xFF1F;&#x6211;&#x7684;&#x7406;&#x89E3;&#x662F;&#x4E00;&#x4E2A;&#x63D0;&#x4F9B;&#x4E86;&#x591A;&#x79CD;&#x65B9;&#x5F0F;&#x4F7F;&#x7528;&#x53D1;&#x5E03;&#x8BA2;&#x9605;&#x6A21;&#x5F0F;&#x7684;&#x5E93;</p>
+<p>&#x901A;&#x8FC7;tap&#x3001;tapAsync&#x3001;tapPromise&#x5206;&#x522B;&#x6DFB;&#x52A0;&#x540C;&#x6B65;&#xFF0C;&#x5F02;&#x6B65;&#x56DE;&#x8C03;&#xFF0C;&#x5F02;&#x6B65;promise&#x7C7B;&#x578B;&#x7684;&#x4E8B;&#x4EF6;&#x3002;&#x901A;&#x8FC7;call&#xFF0C;callAsync&#xFF0C;promise&#x89E6;&#x53D1;&#x5BF9;&#x5E94;&#x7684;&#x4E8B;&#x4EF6;&#x3002;</p>
+<p>tapable&#x63D0;&#x4F9B;&#x4E86;&#x4EE5;&#x4E0B;9&#x79CD;Hook&#xFF0C;&#x6211;&#x4EEC;&#x6765;&#x624B;&#x64B8;&#x4E00;&#x904D;&#xFF0C;&#x770B;&#x4E00;&#x4E0B;tapable&#x7684;&#x5E90;&#x5C71;&#x771F;&#x9762;&#x76EE;&#x3002;</p>
+<ol>
+<li>SyncHook</li>
+<li>SyncBailHook</li>
+<li>SyncWaterfallHook</li>
+<li>SyncLoopHook</li>
+<li>AsyncParallelHook</li>
+<li>AsyncParallelBailHook</li>
+<li>AsyncSeriesHook</li>
+<li>AsyncSeriesBailHook</li>
+<li>AsyncSeriesWaterfallHook</li>
+</ol>
+<h3 id="synchook">SyncHook</h3>
+<p>&#x5B9E;&#x73B0;&#xFF1A;</p>
+<pre><code class="lang-js"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">SyncHook</span> </span>{
+  <span class="hljs-keyword">constructor</span> () {
+    <span class="hljs-keyword">this</span>.tasks = [];
+  }
+
+  tap (name, task) {
+    <span class="hljs-keyword">this</span>.tasks.push(task);
+  }
+
+  call (...args) {
+    <span class="hljs-keyword">this</span>.tasks.forEach((taks) =&gt; {
+      taks(...args);
+    });
+  }
+}
+</code></pre>
+<p>&#x4F8B;&#x5B50;&#xFF1A;</p>
+<pre><code class="lang-js"><span class="hljs-keyword">const</span> init = <span class="hljs-keyword">new</span> SyncHook();
+init.tap(<span class="hljs-string">&apos;init&apos;</span>, (arg)=&gt; {
+  <span class="hljs-comment">// do something</span>
+});
+init.call(<span class="hljs-string">&apos;arg&apos;</span>);
+</code></pre>
+<h3 id="syncbailhook">SyncBailHook</h3>
+<p>&#x8FD4;&#x56DE;&#x503C;&#x4E0D;&#x662F;undefined&#xFF0C;&#x5219;&#x505C;&#x6B62;</p>
+<pre><code class="lang-js"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">SyncBailHook</span> </span>{
+  <span class="hljs-keyword">constructor</span> () {
+    <span class="hljs-keyword">this</span>.tasks = [];
+  }
+
+  tap (name, task) {
+    <span class="hljs-keyword">this</span>.tasks.push(task);
+  }
+
+  call (...args) {
+    <span class="hljs-keyword">let</span> index = <span class="hljs-number">0</span>;
+    <span class="hljs-keyword">let</span> res;
+    <span class="hljs-keyword">do</span> {
+      res = <span class="hljs-keyword">this</span>.tasks[i++](...args);
+    } <span class="hljs-keyword">while</span> (res === <span class="hljs-literal">undefined</span> &amp;&amp; index &lt; <span class="hljs-keyword">this</span>.tasks.length);
+  }
+}
+</code></pre>
+<h3 id="syncwaterfallhook">SyncWaterfallHook</h3>
+<p>&#x8BF7;&#x4E00;&#x4E2A;&#x51FD;&#x6570;&#x6267;&#x884C;&#x7684;&#x7ED3;&#x679C;&#x662F;&#xFF0C;&#x4E0B;&#x4E00;&#x4E2A;&#x51FD;&#x6570;&#x7684;&#x5165;&#x53C2;</p>
+<pre><code class="lang-js"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">SyncWaterfallHook</span> </span>{
+  <span class="hljs-keyword">constructor</span> () {
+    <span class="hljs-keyword">this</span>.tasks = [];
+  }
+
+  tap (name, task) {
+    <span class="hljs-keyword">this</span>.tasks.push(task);
+  }
+
+  call (...args) {
+    <span class="hljs-keyword">const</span> [first, ...others] = <span class="hljs-keyword">this</span>.tasks;
+    others.reduce((a, b) =&gt; {
+      <span class="hljs-keyword">return</span> b(a);
+    }, first(...args));
+  }
+}
+</code></pre>
+<h3 id="syncloophook">SyncLoopHook</h3>
+<p>&#x8FD4;&#x56DE;&#x503C;&#x4E0D;&#x662F;undefined&#xFF0C;&#x5219;&#x7EE7;&#x7EED;&#x6267;&#x884C;&#x6B64;&#x51FD;&#x6570;&#x3002;&#x5426;&#x5219;&#x6267;&#x884C;&#x4E0B;&#x4E00;&#x4E2A;</p>
+<pre><code class="lang-js"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">SyncLoopHook</span> </span>{
+  <span class="hljs-keyword">constructor</span> () {
+    <span class="hljs-keyword">this</span>.tasks = [];
+  }
+
+  tap (name, task) {
+    <span class="hljs-keyword">this</span>.tasks.push(task);
+  }
+
+  call (...args) {
+    <span class="hljs-keyword">this</span>.tasks.forEach((task) =&gt; {
+      <span class="hljs-keyword">let</span> res;
+      <span class="hljs-keyword">do</span> {
+        res = task(...args);
+      } <span class="hljs-keyword">while</span> (res === <span class="hljs-literal">undefined</span>);
+    });
+  }
+}
+</code></pre>
+<h3 id="asyncparallelhook">AsyncParallelHook</h3>
+<p>&#x5F02;&#x6B65;&#x5E76;&#x53D1;</p>
+<pre><code class="lang-js"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">AsyncParallelHook</span> </span>{
+  <span class="hljs-keyword">constructor</span> () {
+    <span class="hljs-keyword">this</span>.tasks = [];
+    <span class="hljs-keyword">this</span>.asyncTasks = [];
+    <span class="hljs-keyword">this</span>.promiseTasks = [];
+  }
+
+  tap (name, task) {
+    <span class="hljs-keyword">this</span>.tasks.push(task);
+  }
+
+  call () {
+    <span class="hljs-keyword">this</span>.tasks.forEach((taks) =&gt; {
+      taks(...args);
+    });
+  }
+
+  tapAsync (name, task) {
+    <span class="hljs-keyword">this</span>.asyncTasks.push(task);
+  }
+
+  callAsync (...args) {
+    <span class="hljs-keyword">const</span> finalCallback = args.pop();
+    <span class="hljs-keyword">let</span> index = <span class="hljs-number">0</span>;
+
+    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">done</span> (<span class="hljs-params"></span>) </span>{
+      index++;
+      <span class="hljs-keyword">if</span> (index === <span class="hljs-keyword">this</span>.asyncTasks.length) {
+        finalCallback();
+      }
+    }
+
+    <span class="hljs-keyword">this</span>.asyncTasks.forEach((taks) =&gt; {
+      taks(...args, done.call(<span class="hljs-keyword">this</span>));
+    });
+  }
+
+  tapPromise (name, task) {
+    <span class="hljs-keyword">this</span>.promiseTasks.push(task);
+  }
+
+  promise (...args) {
+    <span class="hljs-keyword">const</span> list = <span class="hljs-keyword">this</span>.promiseTasks.map(task =&gt; task(...args));
+    <span class="hljs-keyword">return</span> <span class="hljs-built_in">Promise</span>.all(list);
+  }
+
+}
+</code></pre>
+<h3 id="asyncparallelbailhook">AsyncParallelBailHook</h3>
+<p>&#x5F02;&#x6B65;&#x5E76;&#x53D1;&#xFF0C;&#x8FD4;&#x56DE;&#x503C;&#x4E0D;&#x662F;undefined&#xFF0C;&#x5219;&#x505C;&#x6B62;&#x3002;</p>
+<p>&#x6211;&#x61D2;&#x5F97;&#x5199;&#x4E86;&#xFF0C;&#x81EA;&#x5DF1;&#x52A8;&#x624B;&#x5199;&#x5427;&#x3002;</p>
+<h3 id="asyncserieshook">AsyncSeriesHook</h3>
+<p>&#x5F02;&#x6B65;&#x4E32;&#x884C;</p>
+<pre><code class="lang-js"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">AsyncSeriesHook</span> </span>{
+  <span class="hljs-keyword">constructor</span> () {
+    <span class="hljs-keyword">this</span>.tasks = [];
+  }
+
+  tapAsync (name, task) {
+    <span class="hljs-keyword">this</span>.tasks.push(task);
+  }
+
+  callAsync (...args) {
+    <span class="hljs-keyword">let</span> index = <span class="hljs-number">0</span>;
+    <span class="hljs-keyword">const</span> tasks = <span class="hljs-keyword">this</span>.tasks;
+    <span class="hljs-keyword">const</span> next = () =&gt; {
+      <span class="hljs-keyword">if</span> (index === tasks.length) {
+        <span class="hljs-keyword">return</span>;
+      }
+      tasks[index++](...args, next);
+    };
+    next();
+  }
+}
+</code></pre>
+<h3 id="asyncseriesbailhook">AsyncSeriesBailHook</h3>
+<p>&#x5F02;&#x6B65;&#x4E32;&#x884C;&#x5E26;&#x4FDD;&#x9669;&#x7684;&#x94A9;&#x5B50;</p>
+<p>&#x6211;&#x61D2;&#x5F97;&#x5199;&#x4E86;&#xFF0C;&#x81EA;&#x5DF1;&#x52A8;&#x624B;&#x5199;&#x5427;&#x3002;</p>
+<h3 id="asyncserieswaterfallhook">AsyncSeriesWaterfallHook</h3>
+<p>&#x5F02;&#x6B65;&#x4E32;&#x884C;&#x7684;&#x7011;&#x5E03;&#x94A9;&#x5B50;</p>
+<pre><code class="lang-js"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">AsyncSeriesWaterfallHook</span> </span>{
+  <span class="hljs-keyword">constructor</span> () {
+    <span class="hljs-keyword">this</span>.tasks = [];
+  }
+
+  tapAsync (name, task) {
+    <span class="hljs-keyword">this</span>.tasks.push(task);
+  }
+
+  callAsync (...args) {
+    <span class="hljs-keyword">const</span> finalCallback = args.pop();
+    <span class="hljs-keyword">let</span> index = <span class="hljs-number">0</span>;
+    <span class="hljs-keyword">const</span> next = (err, result) =&gt; {
+      index++;
+      <span class="hljs-keyword">if</span> (err || index === <span class="hljs-keyword">this</span>.tasks.length) {
+        finalCallback();
+        <span class="hljs-keyword">return</span>;
+      }
+      <span class="hljs-keyword">this</span>.tasks[index++](result, next);
+    };
+    next(<span class="hljs-literal">null</span>, ...args);
+  }
+}
+</code></pre>
+<p>&#x6CA1;&#x5199;&#x7684;&#x65F6;&#x5019;&#xFF0C;&#x4E0D;&#x5C31;&#x662F;9&#x4E2A;&#x51FD;&#x6570;&#x561B;&#xFF0C;&#x64B8;&#x4E00;&#x904D;&#x5C31;&#x662F;&#x4E86;&#x3002;&#x4E00;&#x5199;&#x8D77;&#x6765;&#xFF0C;&#x600E;&#x4E48;&#x8FD9;&#x4E48;&#x591A;&#x3002;</p>
+
+                                
+                                </section>
+                            
+    </div>
+    <div class="search-results">
+        <div class="has-results">
+            
+            <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+            <ul class="search-results-list"></ul>
+            
+        </div>
+        <div class="no-results">
+            
+            <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+            
+        </div>
+    </div>
+</div>
+
+                        </div>
+                    </div>
+                
+            </div>
+
+            
+                
+                <a href="webpack.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page: 通过手撸学习webpack4">
+                    <i class="fa fa-angle-left"></i>
+                </a>
+                
+                
+            
+        
+    </div>
+
+    <script>
+        var gitbook = gitbook || [];
+        gitbook.push(function() {
+            gitbook.page.hasChanged({"page":{"title":"通过手撸学习tapable","level":"1.4","depth":1,"previous":{"title":"通过手撸学习webpack4","level":"1.3","depth":1,"path":"webpack.md","ref":"webpack.md","articles":[]},"dir":"ltr"},"config":{"plugins":["-sharing","highlight","search","fontsettings","livereload"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"highlight":{},"search":{},"fontsettings":{"theme":"white","family":"sans","size":2},"livereload":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"robin的博客","language":"zh-hans","gitbook":"*"},"file":{"path":"tapable.md","mtime":"2020-02-10T09:58:45.276Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2020-02-10T09:59:07.109Z"},"basePath":".","book":{"language":""}});
+        });
+    </script>
+</div>
+
+        
+    <script src="gitbook/gitbook.js"></script>
+    <script src="gitbook/theme.js"></script>
+    
+        
+        <script src="gitbook/gitbook-plugin-search/search-engine.js"></script>
+        
+    
+        
+        <script src="gitbook/gitbook-plugin-search/search.js"></script>
+        
+    
+        
+        <script src="gitbook/gitbook-plugin-fontsettings/fontsettings.js"></script>
+        
+    
+        
+        <script src="gitbook/gitbook-plugin-livereload/plugin.js"></script>
+        
+    
+        
+        <script src="gitbook/gitbook-plugin-lunr/lunr.min.js"></script>
+        
+    
+        
+        <script src="gitbook/gitbook-plugin-lunr/search-lunr.js"></script>
+        
+    
+
+    </body>
+</html>
+
