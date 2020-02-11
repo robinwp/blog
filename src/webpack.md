@@ -1,5 +1,7 @@
 # 通过手撸学习webpack4
 
+[完整代码](https://github.com/robinwp/robin-pack)
+
 平时的工作中，我们都离不开webpack帮助我们构建应用，今天我们来分析一下webpack的工作原理，并且手撸一个简单版的webpack
 
 ### webpack4 原理分析
